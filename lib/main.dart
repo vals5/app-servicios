@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'screens/splash.dart';
+import 'screens/signin.dart';
+import 'screens/login.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const RapiArregloApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class RapiArregloApp extends StatelessWidget {
+  const RapiArregloApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const CrearCuentaScreen(),
+      routes: {
+        "/crear": (_) => const CrearCuentaScreen(),
+        "/login": (_) => const IniciarSesionScreen(),
+      },
     );
   }
 }
