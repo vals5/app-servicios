@@ -20,7 +20,7 @@ class _AnimatedNavBarState extends State<AnimatedNavBar>
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Color(0xFFF5A623), // mismo color que el fondo
+        color: Color(0xFFF7D400), 
         border: Border(
           top: BorderSide(
             color: Colors.black,

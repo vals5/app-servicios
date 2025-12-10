@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
-import 'screens/signin.dart';
+import 'screens/splash.dart';
 import 'screens/login.dart';
+import 'screens/register.dart';
 
 void main() {
-  runApp(const RapiArregloApp());
+  runApp(const MyApp());
 }
 
-class RapiArregloApp extends StatelessWidget {
-  const RapiArregloApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const CrearCuentaScreen(),
+
+      theme: ThemeData(
+        fontFamily: "Poppins",
+        scaffoldBackgroundColor: const Color(0xFFF7D400),
+      ),
+
+      initialRoute: '/',
       routes: {
-        "/crear": (_) => const CrearCuentaScreen(),
-        "/login": (_) => const IniciarSesionScreen(),
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
       },
     );
   }

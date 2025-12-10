@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
           children: [
 
             const Text(
-              "INICIAR SESIÓN",
+              "CREAR CUENTA",
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
@@ -34,13 +34,36 @@ class LoginScreen extends StatelessWidget {
                 color: Colors.black,
               ),
               decoration: InputDecoration(
+                labelText: "Nombre completo",
+                labelStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+                hintText: "Tu nombre",
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black.withOpacity(0.8),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            TextField(
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+              decoration: InputDecoration(
                 labelText: "Email",
                 labelStyle: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
                 ),
-                hintText: "Ingresá tu email",
+                hintText: "Tu email",
                 hintStyle: TextStyle(
                   fontSize: 16,
                   color: Colors.black.withOpacity(0.8),
@@ -72,20 +95,6 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 10),
-
-            const Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "¿Olvidaste tu contraseña?",
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-
             const SizedBox(height: 30),
 
             ElevatedButton(
@@ -98,7 +107,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {},
               child: const Center(
                 child: Text(
-                  "INGRESAR",
+                  "REGISTRARME",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -108,33 +117,20 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "¿No tenes cuenta?",
+            Center(
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: const Text(
+                  "Ya tengo cuenta",
                   style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(width: 6),
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.pushNamed(context, "/register"),
-                  child: const Text(
-                    "Registrarse",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             )
           ],
         ),
