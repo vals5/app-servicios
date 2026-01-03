@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/profile_provider.dart';
 
 class UserTypeScreen extends StatelessWidget {
   const UserTypeScreen({super.key});
@@ -6,7 +8,6 @@ class UserTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7D400),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
@@ -21,21 +22,19 @@ class UserTypeScreen extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-
             const SizedBox(height: 50),
-
             _blackMainButton(
               context,
               title: "CLIENTE",
               subtitle: "Solicitar servicios",
+              userType: "cliente",
             ),
-
             const SizedBox(height: 20),
-
             _blackMainButton(
               context,
               title: "PROFESIONAL",
               subtitle: "Ofrecer servicios",
+              userType: "profesional",
             ),
           ],
         ),
@@ -47,6 +46,7 @@ class UserTypeScreen extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String subtitle,
+    required String userType,
   }) {
     return SizedBox(
       width: double.infinity,
@@ -59,7 +59,8 @@ class UserTypeScreen extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          Navigator.pushNamed(context, "/complete-profile");
+          context.read<ProfileProvider>().setUserType(userType);
+          Navigator.pushNamed(context, '/complete-profile');
         },
         child: Column(
           children: [
@@ -74,7 +75,10 @@ class UserTypeScreen extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: const TextStyle(color: Color(0xFFF7D400), fontSize: 14),
+              style: const TextStyle(
+                color: Color(0xFFF7D400),
+                fontSize: 14,
+              ),
             ),
           ],
         ),
