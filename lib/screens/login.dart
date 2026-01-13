@@ -7,15 +7,13 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7D400),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             const SizedBox(height: 90),
-            
+
             Column(
               children: [
                 Container(
@@ -37,9 +35,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 15),
-
                 const Text(
                   "RAPI",
                   style: TextStyle(
@@ -126,7 +122,7 @@ class LoginScreen extends StatelessWidget {
             ),
 
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, "/register"),
+              onTap: () => Navigator.pushNamed(context, "/user-type"),
               child: const Text(
                 "Registrar",
                 style: TextStyle(
@@ -144,6 +140,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
 class _CustomInput extends StatelessWidget {
   final String label;
   final bool obscure;
@@ -163,6 +160,8 @@ class _CustomInput extends StatelessWidget {
       ),
       decoration: InputDecoration(
         labelText: label,
+        filled: true,
+        fillColor: Colors.white,
         labelStyle: const TextStyle(
           fontSize: 18,
           color: Colors.black,

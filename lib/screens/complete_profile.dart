@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../providers/profile_provider.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
@@ -10,6 +13,8 @@ class CompleteProfileScreen extends StatefulWidget {
 }
 
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
+  final ImagePicker _picker = ImagePicker();
+
   final Map<String, TextEditingController> _controllers = {
     'nombre': TextEditingController(),
     'telefono': TextEditingController(),
@@ -23,9 +28,17 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   bool aceptaTerminos = false;
 
+  Future<void> _pickImage(ProfileProvider provider) async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      provider.setProfileImage(File(pickedFile.path));
+    }
+  }
+
   int _calculateProgress(String userType) {
     int completed = 0;
-    int total = userType == 'profesional' ? 7 : 4;
 
     if (_controllers['nombre']!.text.isNotEmpty) completed++;
     if (_controllers['telefono']!.text.isNotEmpty) completed++;
@@ -33,15 +46,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
     if (userType == 'cliente') {
       if (_controllers['domicilio']!.text.isNotEmpty) completed++;
+      return ((completed / 4) * 100).round();
     } else {
       if (_controllers['password']!.text.isNotEmpty) completed++;
       if (_controllers['rubro']!.text.isNotEmpty) completed++;
       if (_controllers['zona']!.text.isNotEmpty) completed++;
       if (_controllers['descripcion']!.text.isNotEmpty) completed++;
       if (aceptaTerminos) completed++;
+      return ((completed / 8) * 100).round();
     }
-
-    return ((completed / total) * 100).round();
   }
 
   @override
@@ -52,10 +65,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF7D400),
         elevation: 0,
+        backgroundColor: const Color(0xFFF7D400),
         title: const Text(
-          "Completá tu perfil",
+          'Completá tu perfil',
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -65,7 +78,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               Navigator.pop(context);
             },
             child: const Text(
-              "Cambiar tipo",
+              'Cambiar tipo',
               style: TextStyle(color: Colors.black),
             ),
           )
@@ -75,23 +88,29 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            // FOTO DE PERFIL
+            // FOTO PERFIL
             GestureDetector(
-              onTap: () {
-                // futuro: image picker
-              },
+              onTap: () => _pickImage(provider),
               child: CircleAvatar(
                 radius: 45,
                 backgroundColor: Colors.black,
-                child: const Icon(Icons.camera_alt,
-                    color: Color(0xFFF7D400), size: 30),
+                backgroundImage: provider.profileImage != null
+                    ? FileImage(provider.profileImage!)
+                    : null,
+                child: provider.profileImage == null
+                    ? const Icon(
+                        Icons.camera_alt,
+                        color: Color(0xFFF7D400),
+                        size: 30,
+                      )
+                    : null,
               ),
             ),
 
             const SizedBox(height: 20),
 
             Text(
-              "Perfil completado: $progress%",
+              'Perfil completado: $progress%',
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
@@ -109,26 +128,30 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
             const SizedBox(height: 30),
 
-            _input("Nombre y apellido", _controllers['nombre']!),
-            _input("Teléfono", _controllers['telefono']!),
-            _input("Email", _controllers['email']!),
+            _input('Nombre y apellido', _controllers['nombre']!),
+            _input('Teléfono', _controllers['telefono']!),
+            _input('Email', _controllers['email']!),
 
             if (userType == 'cliente')
-              _input("Domicilio", _controllers['domicilio']!),
+              _input('Domicilio', _controllers['domicilio']!),
 
             if (userType == 'profesional') ...[
-              _input("Contraseña", _controllers['password']!, obscure: true),
-              _input("Rubro principal", _controllers['rubro']!),
-              _input("Zona principal", _controllers['zona']!),
               _input(
-                "Descripción breve",
+                'Contraseña',
+                _controllers['password']!,
+                obscure: true,
+              ),
+              _input('Rubro principal', _controllers['rubro']!),
+              _input('Zona principal', _controllers['zona']!),
+              _input(
+                'Descripción breve',
                 _controllers['descripcion']!,
                 maxLines: 3,
               ),
               CheckboxListTile(
                 value: aceptaTerminos,
                 onChanged: (v) => setState(() => aceptaTerminos = v ?? false),
-                title: const Text("Acepto términos y condiciones"),
+                title: const Text('Acepto términos y condiciones'),
                 controlAffinity: ListTileControlAffinity.leading,
               ),
             ],
@@ -145,11 +168,21 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),
-                onPressed: progress >= 60 ? () {} : null,
+                onPressed: progress >= 60
+                    ? () {
+                        if (userType == 'cliente') {
+                          Navigator.pushReplacementNamed(
+                              context, '/home-cliente');
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, '/home-profesional');
+                        }
+                      }
+                    : null,
                 child: Text(
                   userType == 'profesional'
-                      ? "CREAR CUENTA PROFESIONAL"
-                      : "GUARDAR PERFIL",
+                      ? 'CREAR CUENTA PROFESIONAL'
+                      : 'GUARDAR PERFIL',
                   style: const TextStyle(
                     color: Color(0xFFF7D400),
                     fontWeight: FontWeight.bold,

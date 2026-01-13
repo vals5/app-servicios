@@ -1,34 +1,26 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProfileProvider extends ChangeNotifier {
   String? _userType;
+  File? _profileImage;
 
   String? get userType => _userType;
+  File? get profileImage => _profileImage;
 
   void setUserType(String type) {
     _userType = type;
     notifyListeners();
   }
 
-  // -------------------------
-  // PERFIL COMPLETADO (%)
-  // -------------------------
-
-  int _profileProgress = 0;
-  int get profileProgress => _profileProgress;
-
-  void updateProfileProgress(int value) {
-    _profileProgress = value;
+  void setProfileImage(File image) {
+    _profileImage = image;
     notifyListeners();
   }
 
-  // -------------------------
-  // RESET (por si cambia tipo)
-  // -------------------------
-
   void resetProfile() {
     _userType = null;
-    _profileProgress = 0;
+    _profileImage = null;
     notifyListeners();
   }
 }

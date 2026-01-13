@@ -6,6 +6,8 @@ import 'screens/welcome.dart';
 import 'screens/login.dart';
 import 'screens/user_type.dart';
 import 'screens/complete_profile.dart';
+import 'screens/home_cliente.dart';
+import 'screens/home_prof.dart';
 
 import 'providers/profile_provider.dart';
 
@@ -36,6 +38,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/user-type': (context) => const UserTypeScreen(),
         '/complete-profile': (context) => const CompleteProfileScreen(),
+        '/home-cliente': (context) => const HomeClientScreen(),
+        '/home-profesional': (context) => const HomeProfesionalScreen(),
       },
     );
   }
