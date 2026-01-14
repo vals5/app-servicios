@@ -77,8 +77,7 @@ class HomeClientScreen extends StatelessWidget {
                   CategoryCard(
                       icon: Icons.local_fire_department, label: 'Gasista'),
                   CategoryCard(icon: Icons.vpn_key, label: 'Cerrajero'),
-                  CategoryCard(
-                      icon: Icons.ac_unit, label: 'Aire acondicionado'),
+                  CategoryCard(icon: Icons.ac_unit, label: 'AC'),
                   CategoryCard(icon: Icons.format_paint, label: 'Pintor'),
                 ],
               ),
@@ -100,11 +99,14 @@ class HomeClientScreen extends StatelessWidget {
                       icon: Icons.assignment,
                       title: 'Proyectos grandes',
                       text: 'Coordiná trabajos importantes.',
+                      width: 220,
                     ),
+                    const SizedBox(width: 12),
                     _promoCard(
                       icon: Icons.location_on,
                       title: 'Seguimiento',
                       text: 'Seguimiento en tiempo real.',
+                      width: 220,
                     ),
                   ],
                 ),
@@ -143,32 +145,39 @@ class HomeClientScreen extends StatelessWidget {
     required IconData icon,
     required String title,
     required String text,
+    double width = 220,
   }) {
     return Container(
-      width: 180,
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(16),
+      width: width,
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.black12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 34),
-          const SizedBox(height: 12),
+          Icon(icon, size: 32, color: Colors.orange),
+          const SizedBox(height: 10),
           Text(
             title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
+              fontSize: 15,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             text,
-            style: const TextStyle(fontSize: 13),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 13,
+              height: 1.3,
+            ),
           ),
         ],
       ),

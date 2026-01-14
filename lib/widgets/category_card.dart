@@ -14,7 +14,7 @@ class CategoryCard extends StatelessWidget {
     final text = label.toLowerCase();
 
     if (label.contains('Gasista')) return Colors.red;
-    if (label.contains('Aire acondicionado')) return Colors.blue;
+    if (label.contains('AC')) return Colors.blue;
     if (label.contains('Plomero')) return Colors.green;
     if (label.contains('Electricista')) return Colors.blue;
     if (label.contains('Pintor')) return Colors.red;
@@ -43,22 +43,25 @@ class CategoryCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.symmetric(vertical: 14),
+      padding: const EdgeInsets.fromLTRB(8, 14, 8, 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
-            size: 60,
+            size: 38,
             color: color.withOpacity(0.8),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 13,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: label.length > 15 ? 11.5 : 12.5,
               fontWeight: FontWeight.w600,
+              height: 1.1,
             ),
           ),
         ],
