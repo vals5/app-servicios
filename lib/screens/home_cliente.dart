@@ -84,32 +84,31 @@ class HomeClientScreen extends StatelessWidget {
 
               const SizedBox(height: 28),
 
-              // ───────── PRÓXIMO EN RAPIARREGLO ─────────
+              // ---------------- PRÓXIMO EN RAPIARREGLO ----------------
               const Text(
                 '🚀 Próximo en RAPIARREGLO',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 14),
 
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _promoCard(
+              Row(
+                children: [
+                  Expanded(
+                    child: _promoCard(
                       icon: Icons.assignment,
                       title: 'Proyectos grandes',
                       text: 'Coordiná trabajos importantes.',
-                      width: 220,
                     ),
-                    const SizedBox(width: 12),
-                    _promoCard(
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _promoCard(
                       icon: Icons.location_on,
                       title: 'Seguimiento',
                       text: 'Seguimiento en tiempo real.',
-                      width: 220,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 28),
@@ -145,10 +144,8 @@ class HomeClientScreen extends StatelessWidget {
     required IconData icon,
     required String title,
     required String text,
-    double width = 220,
   }) {
     return Container(
-      width: width,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -158,14 +155,14 @@ class HomeClientScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 32, color: Colors.orange),
+          Icon(icon, size: 30, color: Colors.orange),
           const SizedBox(height: 10),
           Text(
             title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
           ),
