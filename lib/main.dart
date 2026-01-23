@@ -1,4 +1,4 @@
-import 'package:app_servicios/screens/accept_budget.dart';
+import 'package:app_servicios/screens/confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +11,8 @@ import 'screens/home_cliente.dart';
 import 'screens/home_prof.dart';
 import 'screens/create_request.dart';
 import 'screens/budget.dart';
+// ignore: duplicate_import
+import 'screens/confirmation.dart';
 
 import 'providers/profile_provider.dart';
 
