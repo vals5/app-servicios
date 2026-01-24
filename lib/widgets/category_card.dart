@@ -32,7 +32,7 @@ class CategoryCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           '/create-request',
-          arguments: label, // 👉 servicio seleccionado
+          arguments: label,
         );
       },
       child: Container(
