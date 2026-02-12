@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:app_servicios/screens/confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'budget.dart';
 
 class CreateRequestScreen extends StatefulWidget {
   const CreateRequestScreen({super.key});

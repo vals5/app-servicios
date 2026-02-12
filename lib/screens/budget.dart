@@ -26,7 +26,7 @@ class BudgetScreen extends StatelessWidget {
             const SizedBox(height: 14),
             _senaInfo(),
             const SizedBox(height: 30),
-            _pagarButton(),
+            _pagarButton(context),
           ],
         ),
       ),
@@ -119,7 +119,7 @@ class BudgetScreen extends StatelessWidget {
     );
   }
 
-  Widget _pagarButton() {
+  Widget _pagarButton(BuildContext context) {
     return Column(
       children: [
         ElevatedButton(
@@ -131,7 +131,9 @@ class BudgetScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/payment');
+          },
           child: const Text(
             'Pagar seña y confirmar visita',
             style: TextStyle(fontSize: 16),

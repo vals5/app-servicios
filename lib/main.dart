@@ -1,4 +1,3 @@
-import 'package:app_servicios/screens/confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +10,8 @@ import 'screens/home_cliente.dart';
 import 'screens/home_prof.dart';
 import 'screens/create_request.dart';
 import 'screens/budget.dart';
-// ignore: duplicate_import
 import 'screens/confirmation.dart';
+import 'screens/payment.dart';
 
 import 'providers/profile_provider.dart';
 
@@ -48,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/create-request': (context) => const CreateRequestScreen(),
         '/budget': (context) => const BudgetScreen(),
         '/confirmation': (context) => const AcceptBudgetScreen(),
+        '/payment': (context) => const PayDepositScreen(),
       },
     );
   }
