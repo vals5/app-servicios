@@ -111,7 +111,7 @@ class BudgetScreen extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            'La seña confirma la visita del profesional.',
+            'La seña confirma la visita del profesional. Podés cancelar sin costo hasta 3 horas antes.',
             style: TextStyle(fontSize: 12),
           ),
         ],

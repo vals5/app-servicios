@@ -25,6 +25,8 @@ class PaymentConfirmedScreen extends StatelessWidget {
               child: const Column(
                 children: [
                   Text('Leonardo Giménez'),
+                  Text('Electricista'),
+                  Text('⭐ 4.8 (23 trabajos)'),
                   Text('Seña pagada: \$1.800'),
                 ],
               ),

@@ -61,7 +61,9 @@ class AcceptBudgetScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/budget');
+              },
               child: const Text(
                 'Pagar seña y confirmar visita',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
