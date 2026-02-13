@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
 import 'chat.dart';
 
-class PaymentConfirmedScreen extends StatelessWidget {
+class PaymentConfirmedScreen extends StatefulWidget {
   const PaymentConfirmedScreen({super.key});
+
+  @override
+  State<PaymentConfirmedScreen> createState() => _PaymentConfirmedScreenState();
+}
+
+class _PaymentConfirmedScreenState extends State<PaymentConfirmedScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    // ⏳ Redirige solo después de 3 segundos
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/status');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +48,8 @@ class PaymentConfirmedScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 20),
+            const CircularProgressIndicator(),
             const Spacer(),
             SizedBox(
               width: double.infinity,
@@ -40,13 +59,16 @@ class PaymentConfirmedScreen extends StatelessWidget {
                   backgroundColor: const Color(0xFFF7D400),
                 ),
                 onPressed: () {
+                  // botón manual por si el usuario quiere ir antes
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const ChatScreen()),
                   );
                 },
-                child: const Text('Ir al chat',
-                    style: TextStyle(color: Colors.black)),
+                child: const Text(
+                  'Ir al chat',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ),
           ],
