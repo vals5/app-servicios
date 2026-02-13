@@ -12,6 +12,7 @@ import 'screens/create_request.dart';
 import 'screens/budget.dart';
 import 'screens/confirmation.dart';
 import 'screens/payment.dart';
+import 'screens/payment_confirmed.dart';
 import 'screens/status.dart';
 
 import 'providers/profile_provider.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         '/budget': (context) => const BudgetScreen(),
         '/confirmation': (context) => const AcceptBudgetScreen(),
         '/payment': (context) => const PaymentScreen(),
+        '/payment-confirmed': (context) => const PaymentConfirmedScreen(),
         '/status': (context) => const StatusScreen(),
       },
     );

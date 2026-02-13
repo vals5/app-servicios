@@ -102,7 +102,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/confirmation');
+              Navigator.pushNamed(context, '/payment-confirmed');
             },
             child: const Text(
               "Confirmar pago",
