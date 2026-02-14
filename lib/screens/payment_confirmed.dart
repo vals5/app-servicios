@@ -45,6 +45,7 @@ class _PaymentConfirmedScreenState extends State<PaymentConfirmedScreen> {
                   Text('Electricista'),
                   Text('⭐ 4.8 (23 trabajos)'),
                   Text('Seña pagada: \$1.800'),
+                  Text("12 de marzo - 15:30 hs"),
                 ],
               ),
             ),

@@ -83,6 +83,8 @@ class BudgetScreen extends StatelessWidget {
           ),
           SizedBox(height: 6),
           Text('Min: \$12.000 – Máx: \$18.000'),
+          SizedBox(height: 6),
+          Text("12 de marzo - 15:30 hs"),
           SizedBox(height: 4),
           Text(
             'El precio final se confirma al terminar el trabajo.',

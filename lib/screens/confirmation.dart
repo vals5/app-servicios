@@ -154,6 +154,11 @@ class AcceptBudgetScreen extends StatelessWidget {
             'Min: \$12.000 – Máx: \$18.000',
             style: TextStyle(fontSize: 16),
           ),
+          SizedBox(height: 10),
+          Text(
+            '12 de marzo - 15:30 hs',
+            style: TextStyle(fontSize: 16),
+          ),
           SizedBox(height: 6),
           Text(
             'El precio final se confirma al terminar el trabajo.',
