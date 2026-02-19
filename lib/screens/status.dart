@@ -78,7 +78,12 @@ class StatusScreen extends StatelessWidget {
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () {},
-                              child: const Text("Ahí salgo"),
+                              child: const Text(
+                                "Ahí salgo",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 10),
