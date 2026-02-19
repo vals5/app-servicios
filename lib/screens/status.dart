@@ -35,7 +35,7 @@ class StatusScreen extends StatelessWidget {
                           Text("Leonardo Giménez",
                               style: TextStyle(fontWeight: FontWeight.bold)),
                           Text("Electricista"),
-                          Text("⭐ 4.8 (23 trab,)"),
+                          Text("⭐ 4.8 (23 trab.)"),
                         ],
                       ))
                     ],
@@ -51,8 +51,7 @@ class StatusScreen extends StatelessWidget {
                       SizedBox(height: 12),
                       _StepItem("Profesional confirmado", Icons.check_circle,
                           Colors.green),
-                      _StepItem(
-                          "En camino", Icons.directions_car, Colors.orange),
+                      _StepItem("En camino", Icons.directions_car, Colors.grey),
                       _StepItem("En la puerta", Icons.home, Colors.grey),
                       _StepItem(
                           "Trabajo finalizado", Icons.done_all, Colors.grey),
@@ -79,7 +78,7 @@ class StatusScreen extends StatelessWidget {
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () {},
-                              child: const Text("Ya salgo"),
+                              child: const Text("Ahí salgo"),
                             ),
                           ),
                           const SizedBox(width: 10),
