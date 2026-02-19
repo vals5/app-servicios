@@ -57,15 +57,12 @@ class _FinalPaymentScreenState extends State<FinalPaymentScreen> {
 
             const SizedBox(height: 16),
 
-            /// MERCADO PAGO
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 52),
-                backgroundColor: const Color(0xFFF7D400),
+                backgroundColor: const Color.fromARGB(255, 0, 159, 226),
                 foregroundColor: Colors.black,
               ),
               onPressed: () {
-                // acá luego integrás MercadoPago SDK
                 Navigator.pushNamed(context, '/fp-confirmed');
               },
               child: const Text('Pagar con MercadoPago'),
@@ -73,7 +70,6 @@ class _FinalPaymentScreenState extends State<FinalPaymentScreen> {
 
             const SizedBox(height: 18),
 
-            /// TRANSFERENCIA
             _card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +86,6 @@ class _FinalPaymentScreenState extends State<FinalPaymentScreen> {
 
             const SizedBox(height: 12),
 
-            /// SUBIR COMPROBANTE
             OutlinedButton(
               onPressed: pickComprobante,
               child: const Text('Subir comprobante'),
@@ -104,17 +99,37 @@ class _FinalPaymentScreenState extends State<FinalPaymentScreen> {
 
             const Spacer(),
 
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/fp-confirmed');
-              },
-              child: const Text('Confirmar pago'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/disagree');
-              },
-              child: const Text('No estoy de acuerdo'),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFF7D400),
+                      foregroundColor: Colors.black,
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/fp-confirmed');
+                    },
+                    child: const Text('Confirmar pago'),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFF7D400),
+                      foregroundColor: Colors.black,
+                      side: const BorderSide(color: Colors.black12),
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/disagree');
+                    },
+                    child: const Text('No estoy de acuerdo'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -56,7 +56,7 @@ class _FPConfirmedScreenState extends State<FPConfirmedScreen> {
                       controller: comment,
                       maxLines: 3,
                       decoration: const InputDecoration(
-                        hintText: 'Dejá un comentario (opcional)',
+                        hintText: 'Dejá tu comentario (opcional)',
                       ),
                     ),
                   ],
