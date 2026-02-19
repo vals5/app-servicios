@@ -14,6 +14,10 @@ import 'screens/confirmation.dart';
 import 'screens/payment.dart';
 import 'screens/payment_confirmed.dart';
 import 'screens/status.dart';
+import 'screens/final_payment.dart';
+import 'screens/fp_confirmed.dart';
+import 'screens/case_review.dart';
+import 'screens/disagree.dart';
 
 import 'providers/profile_provider.dart';
 
@@ -52,6 +56,10 @@ class MyApp extends StatelessWidget {
         '/payment': (context) => const PaymentScreen(),
         '/payment-confirmed': (context) => const PaymentConfirmedScreen(),
         '/status': (context) => const StatusScreen(),
+        '/final-payment': (context) => const FinalPaymentScreen(),
+        '/fp-confirmed': (context) => const FPConfirmedScreen(),
+        '/case-review': (context) => const CaseReviewScreen(),
+        '/disagree': (context) => const DisagreeScreen(),
       },
     );
   }

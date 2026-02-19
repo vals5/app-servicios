@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
 import 'chat.dart';
 
-class StatusScreen extends StatelessWidget {
+class StatusScreen extends StatefulWidget {
   const StatusScreen({super.key});
+
+  @override
+  State<StatusScreen> createState() => _StatusScreenState();
+}
+
+class _StatusScreenState extends State<StatusScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    /// ⏳ Auto redirección después de 5 segundos
+    Future.delayed(const Duration(seconds: 5), () {
+      if (!mounted) return;
+
+      Navigator.pushReplacementNamed(context, '/final-payment');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +28,14 @@ class StatusScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: const BackButton(
-          color: Colors.black,
+        leading: const BackButton(color: Colors.black),
+        title: const Text(
+          'Electricista',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        title: const Text('Electricista',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
       ),
       body: Column(
         children: [
@@ -25,23 +45,27 @@ class StatusScreen extends StatelessWidget {
               children: [
                 _card(
                   child: Row(
-                    children: [
-                      const CircleAvatar(radius: 28),
-                      const SizedBox(width: 12),
-                      const Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Leonardo Giménez",
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Electricista"),
-                          Text("⭐ 4.8 (23 trab.)"),
-                        ],
-                      ))
+                    children: const [
+                      CircleAvatar(radius: 28),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Leonardo Giménez",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text("Electricista"),
+                            Text("⭐ 4.8 (23 trab.)"),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
+
                 const SizedBox(height: 16),
+
+                /// ESTADO
                 _card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +82,10 @@ class StatusScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+
                 const SizedBox(height: 16),
+
+                /// INFO
                 _card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,9 +107,7 @@ class StatusScreen extends StatelessWidget {
                               onPressed: () {},
                               child: const Text(
                                 "Ahí salgo",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                                style: TextStyle(color: Colors.black),
                               ),
                             ),
                           ),
@@ -90,7 +115,10 @@ class StatusScreen extends StatelessWidget {
                           Expanded(
                             child: OutlinedButton(
                               onPressed: () {},
-                              child: const Text("Dame unos minutos"),
+                              child: const Text(
+                                "Dame unos minutos",
+                                style: TextStyle(color: Colors.black),
+                              ),
                             ),
                           ),
                         ],
@@ -101,6 +129,8 @@ class StatusScreen extends StatelessWidget {
               ],
             ),
           ),
+
+          /// BOTÓN CHAT
           Padding(
             padding: const EdgeInsets.all(16),
             child: SizedBox(
@@ -119,7 +149,9 @@ class StatusScreen extends StatelessWidget {
                 child: const Text(
                   "Ir al chat",
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
