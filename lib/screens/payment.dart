@@ -12,10 +12,6 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   File? receiptImage;
 
-  /* ======================================================
-                        PICK IMAGE
-  ====================================================== */
-
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
 
@@ -59,16 +55,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  /* ======================================================
-                        UI
-  ====================================================== */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F6F6),
-
-      /* ---------------- APPBAR ---------------- */
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -78,8 +68,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-
-      /* ---------------- BOTÓN FIJO ---------------- */
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(16),
         decoration: const BoxDecoration(
@@ -114,8 +102,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ),
       ),
-
-      /* ---------------- BODY ---------------- */
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -135,11 +121,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  /* ======================================================
-                      COMPONENTES
-  ====================================================== */
-
-  /* ---------- INFO SERVICIO ---------- */
   Widget _serviceInfoCard() {
     return _card(
       child: const Column(
@@ -157,7 +138,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  /* ---------- TOTAL ---------- */
   Widget _totalCard() {
     return _card(
       child: const Column(
@@ -176,29 +156,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  /* ---------- MERCADO PAGO ---------- */
   Widget _mercadoPagoButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
-      child: ElevatedButton.icon(
-        icon: const Icon(Icons.account_balance_wallet),
-        label: const Text("Pagar con Mercado Pago"),
+      height: 55,
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
+          backgroundColor: const Color(0xFFF7D400),
+          foregroundColor: Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
+          elevation: 2,
         ),
         onPressed: () {
           Navigator.pushNamed(context, '/confirmation');
         },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/MP.png',
+              height: 26,
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              "Pagar con Mercado Pago",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  /* ---------- TRANSFERENCIA ---------- */
   Widget _transferCard() {
     return _card(
       child: const Column(
@@ -218,7 +212,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  /* ---------- SUBIR COMPROBANTE ---------- */
   Widget _uploadReceipt() {
     return _card(
       child: Column(
@@ -257,7 +250,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  /* ---------- CARD BASE ---------- */
   Widget _card({required Widget child}) {
     return Container(
       width: double.infinity,
@@ -277,10 +269,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 }
-
-/* ======================================================
-                      ROW INFO
-====================================================== */
 
 class _Row extends StatelessWidget {
   final String left;

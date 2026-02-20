@@ -57,15 +57,37 @@ class _FinalPaymentScreenState extends State<FinalPaymentScreen> {
 
             const SizedBox(height: 16),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 0, 159, 226),
-                foregroundColor: Colors.black,
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFF7D400),
+                  foregroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/fp-confirmed');
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/MP.png',
+                      height: 26,
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'Pagar con Mercado Pago',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/fp-confirmed');
-              },
-              child: const Text('Pagar con MercadoPago'),
             ),
 
             const SizedBox(height: 18),
