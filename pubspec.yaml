@@ -24,7 +24,7 @@ flutter:
 
   assets:
     - assets/fonts/
-    - assets/images/MP.png
+    - assets/images/
 
   fonts:
     - family: Poppins
