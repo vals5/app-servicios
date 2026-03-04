@@ -115,28 +115,6 @@ class _SendBudgetScreenState extends State<SendBudgetScreen> {
         right: 16,
         bottom: 16,
       ),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back, color: Colors.white),
-          ),
-          const Expanded(
-            child: Center(
-              child: Text(
-                'Presupuestar',
-                style: TextStyle(
-                  color: _amarillo,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 24),
-        ],
-      ),
     );
   }
 
@@ -351,7 +329,7 @@ class _SendBudgetScreenState extends State<SendBudgetScreen> {
               style: const TextStyle(fontFamily: 'Poppins', fontSize: 15),
               decoration: const InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Ingresa el costo final del trabajo...',
+                hintText: 'Ingresa el costo final del trabajo',
                 hintStyle: TextStyle(
                   color: Colors.black38,
                   fontSize: 14,
@@ -420,7 +398,7 @@ class _SendBudgetScreenState extends State<SendBudgetScreen> {
         _notaItem(
           icon: Icons.lock_outline,
           iconColor: Colors.orange,
-          texto: 'Solo el cliente podrá ver tu presupuesto.',
+          texto: 'Sólo el cliente podrá ver tu presupuesto.',
         ),
         const SizedBox(height: 8),
         _notaItem(
@@ -499,7 +477,7 @@ class _SendBudgetScreenState extends State<SendBudgetScreen> {
             );
             return;
           }
-          Navigator.pushNamed(context, '/confirmation');
+          Navigator.pushNamed(context, '/enviar');
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: _amarillo,
@@ -511,7 +489,7 @@ class _SendBudgetScreenState extends State<SendBudgetScreen> {
           ),
         ),
         child: const Text(
-          'Presupuestar',
+          'Enviar presupuesto',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,

@@ -410,7 +410,7 @@ class OportunityScreen extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/presupuestar');
+              Navigator.pushNamed(context, '/send-budget');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: _amarillo,
@@ -422,7 +422,7 @@ class OportunityScreen extends StatelessWidget {
               ),
             ),
             child: const Text(
-              'Presupuestar',
+              'Enviar presupuesto',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,

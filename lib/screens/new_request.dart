@@ -29,20 +29,26 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
               const SizedBox(height: 20),
               _buildNuevaSolicitudCard(context),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(child: _buildGananciasCard()),
-                  const SizedBox(width: 12),
-                  Expanded(child: _buildProximoTrabajoCard()),
-                ],
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: _buildGananciasCard()),
+                    const SizedBox(width: 12),
+                    Expanded(child: _buildProximoTrabajoCard()),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(child: _buildCalificacionCard()),
-                  const SizedBox(width: 12),
-                  Expanded(child: _buildCompletarPerfilCard(context)),
-                ],
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: _buildCalificacionCard()),
+                    const SizedBox(width: 12),
+                    Expanded(child: _buildCompletarPerfilCard(context)),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
             ],
@@ -172,7 +178,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
               ),
               children: [
                 TextSpan(
-                  text: 'Notía: ',
+                  text: 'Nombre: ',
                   style: TextStyle(color: Colors.black54),
                 ),
                 TextSpan(
@@ -184,7 +190,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           ),
           const SizedBox(height: 2),
           const Text(
-            'Problem: Corticiruto',
+            'Problema: Cortocircuito',
             style: TextStyle(
               fontSize: 13,
               color: Colors.black54,
@@ -196,7 +202,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/oportunidad');
+                Navigator.pushNamed(context, '/oportunity');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: _amarillo,
@@ -318,8 +324,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           const SizedBox(height: 10),
           _proximoItem('15:30', 'Instalación enchufe'),
           const SizedBox(height: 6),
-          _proximoItem('15:40', 'Mail · Plata\nProfesionals, contbe'),
-          const SizedBox(height: 14),
+          _proximoItem('15:40', 'Baja tensión'),
+          const Spacer(),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -407,7 +413,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                 Icon(Icons.verified, size: 14, color: Color(0xFF1A73E8)),
                 SizedBox(width: 4),
                 Text(
-                  'Pragonn trabajo.',
+                  'Pagaron trabajo.',
                   style: TextStyle(
                     fontSize: 11,
                     color: Color(0xFF1A73E8),
@@ -459,7 +465,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
             ),
           ),
           Text(
-            'Professionals conficiible.',
+            'Profesional confiable.',
             style: TextStyle(
               fontSize: 11,
               color: Colors.grey[500],
@@ -500,14 +506,14 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Completá tu perfil para récidar más trabajos.',
+            'Completá tu perfil para recibir más trabajos.',
             style: TextStyle(
               fontSize: 12,
               color: Colors.grey[600],
               fontFamily: 'Poppins',
             ),
           ),
-          const SizedBox(height: 14),
+          const Spacer(),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
