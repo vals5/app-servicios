@@ -18,6 +18,9 @@ import 'screens/final_payment.dart';
 import 'screens/fp_confirmed.dart';
 import 'screens/case_review.dart';
 import 'screens/disagree.dart';
+import 'screens/new_request.dart';
+import 'screens/oportunity.dart';
+import 'screens/send_budget.dart';
 
 import 'providers/profile_provider.dart';
 
@@ -60,6 +63,9 @@ class MyApp extends StatelessWidget {
         '/fp-confirmed': (context) => const FPConfirmedScreen(),
         '/case-review': (context) => const CaseReviewScreen(),
         '/disagree': (context) => const DisagreeScreen(),
+        '/new-request': (context) => const NewRequestScreen(),
+        '/oportunity': (context) => const OportunityScreen(),
+        '/send-budget': (context) => const SendBudgetScreen(),
       },
     );
   }
