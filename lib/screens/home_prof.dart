@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
-class HomeProfesionalScreen extends StatelessWidget {
+class HomeProfesionalScreen extends StatefulWidget {
   const HomeProfesionalScreen({super.key});
+
+  @override
+  State<HomeProfesionalScreen> createState() => _HomeProfesionalScreenState();
+}
+
+class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/new-request');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +74,7 @@ class HomeProfesionalScreen extends StatelessWidget {
               "Ya podés ver solicitudes y presupuestar trabajos.",
               style: TextStyle(fontSize: 15),
             ),
-
             const SizedBox(height: 20),
-
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -96,7 +109,7 @@ class HomeProfesionalScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: LinearProgressIndicator(
+                    child: const LinearProgressIndicator(
                       value: 0.4,
                       minHeight: 8,
                       backgroundColor: Colors.black12,
@@ -106,9 +119,7 @@ class HomeProfesionalScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 30),
-
             const Text(
               "¿Cómo se trabaja?",
               style: TextStyle(
@@ -116,22 +127,17 @@ class HomeProfesionalScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 16),
-
             _step(1, "Ves solicitudes de clientes"),
             _step(2, "Presupuestás con monto mínimo y máximo"),
             _step(3, "El cliente paga la seña y confirma la visita"),
-            _step(4, "El día del trabajo avisás “estoy en la puerta”"),
+            _step(4, "Estoy en la puerta"),
             _step(5, "Finalizás el trabajo con fotos + importe final"),
             _step(6, "Ambos se califican"),
             _step(7, "Vos cobrás lo que presupuestás, no se te descuenta"),
             _step(8,
                 "Si vas al domicilio y no está el cliente, la seña la recibís igual"),
-
             const SizedBox(height: 20),
-
-            // INFO SEÑA
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -143,9 +149,7 @@ class HomeProfesionalScreen extends StatelessWidget {
                 children: const [
                   Text(
                     "La seña confirma la visita.",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 6),
                   Text(
@@ -155,9 +159,7 @@ class HomeProfesionalScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
-
             const Text(
               "Cuando un cliente te elige, te avisamos por la app.",
               style: TextStyle(fontSize: 14),
