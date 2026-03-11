@@ -48,7 +48,7 @@ class _FinishedJobScreenState extends State<FinishedJobScreen> {
 
                   // ¿Recibiste el pago?
                   const Text(
-                    '¿Recibiste el pago?',
+                    'Cobrar al cliente:',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

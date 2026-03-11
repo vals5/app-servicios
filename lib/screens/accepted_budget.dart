@@ -23,7 +23,7 @@ class AcceptedBudgetScreen extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   // ── Confetti + check ──
-                  _buildSuccessHeader(),
+                  Center(child: _buildSuccessHeader()),
                   const SizedBox(height: 20),
 
                   // ── Card cliente ──
@@ -100,6 +100,7 @@ class AcceptedBudgetScreen extends StatelessWidget {
 
   Widget _buildSuccessHeader() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // Confetti visual con Stack
         SizedBox(
@@ -264,17 +265,6 @@ class AcceptedBudgetScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
                 ),
               ),
-              GestureDetector(
-                onTap: () {},
-                child: const Text(
-                  'Ver ubicación >',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.blue,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -393,7 +383,8 @@ class AcceptedBudgetScreen extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {},
         style: OutlinedButton.styleFrom(
-          foregroundColor: Colors.blue,
+          backgroundColor: _amarillo,
+          foregroundColor: Colors.black,
           side: const BorderSide(color: Colors.black12),
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
