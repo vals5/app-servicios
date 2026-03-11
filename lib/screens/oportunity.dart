@@ -473,8 +473,9 @@ class OportunityScreen extends StatelessWidget {
       child: BottomNavigationBar(
         currentIndex: 0,
         onTap: (i) {
-          if (i == 0)
+          if (i == 0) {
             Navigator.pushReplacementNamed(context, '/home-profesional');
+          }
         },
         selectedItemColor: _amarillo,
         unselectedItemColor: Colors.grey,

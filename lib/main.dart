@@ -21,6 +21,11 @@ import 'screens/disagree.dart';
 import 'screens/new_request.dart';
 import 'screens/oportunity.dart';
 import 'screens/send_budget.dart';
+import 'screens/accepted_budget.dart';
+import 'screens/arrived.dart';
+import 'screens/finished_job.dart';
+import 'screens/payment_received.dart';
+import 'screens/rate_client.dart';
 
 import 'providers/profile_provider.dart';
 
@@ -66,6 +71,11 @@ class MyApp extends StatelessWidget {
         '/new-request': (context) => const NewRequestScreen(),
         '/oportunity': (context) => const OportunityScreen(),
         '/send-budget': (context) => const SendBudgetScreen(),
+        '/arrived': (context) => const ArrivedScreen(),
+        '/accepted': (context) => const AcceptedBudgetScreen(),
+        '/finished': (context) => const FinishedJobScreen(),
+        '/received': (context) => const PaymentReceivedScreen(),
+        '/rate-client': (context) => const RateClientScreen(),
       },
     );
   }
