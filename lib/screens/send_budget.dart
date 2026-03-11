@@ -477,7 +477,7 @@ class _SendBudgetScreenState extends State<SendBudgetScreen> {
             );
             return;
           }
-          Navigator.pushNamed(context, '/enviar');
+          Navigator.pushNamed(context, '/accepted');
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: _amarillo,

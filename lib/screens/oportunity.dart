@@ -154,22 +154,6 @@ class OportunityScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 14, fontFamily: 'Poppins'),
               ),
               const Spacer(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _amarillo,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Text(
-                  'Pronaza Urgento',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -182,31 +166,6 @@ class OportunityScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 14, fontFamily: 'Poppins'),
               ),
               const Spacer(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _amarillo,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: const [
-                    Text(
-                      '→ ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
-                    ),
-                    Text(
-                      'Pronaza Urgento',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ],

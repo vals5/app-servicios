@@ -303,17 +303,6 @@ class _ArrivedScreenState extends State<ArrivedScreen> {
                   style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
                 ),
               ),
-              GestureDetector(
-                onTap: () {},
-                child: const Text(
-                  'Ver ubicación >',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.blue,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 8),
