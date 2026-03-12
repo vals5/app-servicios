@@ -16,7 +16,7 @@ class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/arrived-at-home');
+        Navigator.pushReplacementNamed(context, '/arrived');
       }
     });
   }
