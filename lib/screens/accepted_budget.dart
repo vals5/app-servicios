@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 
-class AcceptedBudgetScreen extends StatelessWidget {
+class AcceptedBudgetScreen extends StatefulWidget {
   const AcceptedBudgetScreen({super.key});
 
+  @override
+  State<AcceptedBudgetScreen> createState() => _AcceptedBudgetScreenState();
+}
+
+class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
   static const Color _amarillo = Color(0xFFF7D400);
   static const Color _darkBg = Color(0xFF1C1F2A);
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/arrived-at-home');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +36,12 @@ class AcceptedBudgetScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-
-                  // ── Confetti + check ──
                   Center(child: _buildSuccessHeader()),
                   const SizedBox(height: 20),
-
-                  // ── Card cliente ──
                   _buildCardCliente(),
                   const SizedBox(height: 16),
-
-                  // ── Detalles trabajo ──
                   _buildCardDetalles(),
                   const SizedBox(height: 12),
-
                   Center(
                     child: Text(
                       'Escribile ahora para coordinar la visita.',
@@ -45,12 +53,8 @@ class AcceptedBudgetScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // ── Notas ──
                   _buildNotas(),
                   const SizedBox(height: 24),
-
-                  // ── Botones ──
                   _buildBotonAbriChat(context),
                   const SizedBox(height: 12),
                   _buildBotonVerUbicacion(),
@@ -102,20 +106,18 @@ class AcceptedBudgetScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Confetti visual con Stack
         SizedBox(
           height: 100,
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Confetti dots
               ...List.generate(12, (i) {
                 final colors = [
                   Colors.green,
                   _amarillo,
                   Colors.blue,
                   Colors.orange,
-                  Colors.red,
+                  Colors.red
                 ];
                 final positions = [
                   const Offset(-80, -20),
@@ -143,7 +145,6 @@ class AcceptedBudgetScreen extends StatelessWidget {
                   ),
                 );
               }),
-              // Círculo verde con check
               Container(
                 width: 64,
                 height: 64,
@@ -160,19 +161,13 @@ class AcceptedBudgetScreen extends StatelessWidget {
         const Text(
           'María López',
           style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Poppins',
-          ),
+              fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
           textAlign: TextAlign.center,
         ),
         const Text(
           'aceptó tu presupuesto',
           style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Poppins',
-          ),
+              fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
           textAlign: TextAlign.center,
         ),
       ],
@@ -201,25 +196,18 @@ class AcceptedBudgetScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  Text(
-                    'María López',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
+                  Text('María López',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          fontFamily: 'Poppins')),
                   SizedBox(height: 2),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: _amarillo, size: 15),
-                      SizedBox(width: 4),
-                      Text(
-                        '4.8 (7 trabajos)',
-                        style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
-                      ),
-                    ],
-                  ),
+                  Row(children: [
+                    Icon(Icons.star, color: _amarillo, size: 15),
+                    SizedBox(width: 4),
+                    Text('4.8 (7 trabajos)',
+                        style: TextStyle(fontSize: 13, fontFamily: 'Poppins')),
+                  ]),
                 ],
               ),
             ],
@@ -254,25 +242,18 @@ class AcceptedBudgetScreen extends StatelessWidget {
           _infoRow(Icons.calendar_today_outlined, 'Día: Martes 23 de abril',
               Colors.black87),
           const SizedBox(height: 8),
-          Row(
-            children: [
-              const Icon(Icons.access_time_outlined,
-                  size: 16, color: Colors.black54),
-              const SizedBox(width: 8),
-              const Expanded(
-                child: Text(
-                  'Horario: 15:00 – 18:00',
-                  style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
-                ),
-              ),
-            ],
-          ),
+          const Row(children: [
+            Icon(Icons.access_time_outlined, size: 16, color: Colors.black54),
+            SizedBox(width: 8),
+            Expanded(
+                child: Text('Horario: 15:00 – 18:00',
+                    style: TextStyle(fontSize: 13, fontFamily: 'Poppins'))),
+          ]),
           const SizedBox(height: 8),
           _infoRow(
-            Icons.location_on,
-            'Dirección aproximada: Barrio Los Alerces, Godoy Cruz',
-            Colors.green,
-          ),
+              Icons.location_on,
+              'Dirección aproximada: Barrio Los Alerces, Godoy Cruz',
+              Colors.green),
         ],
       ),
     );
@@ -296,11 +277,8 @@ class AcceptedBudgetScreen extends StatelessWidget {
         Icon(icon, size: 18, color: color),
         const SizedBox(width: 10),
         Expanded(
-          child: Text(
-            texto,
-            style: const TextStyle(fontSize: 13, fontFamily: 'Poppins'),
-          ),
-        ),
+            child: Text(texto,
+                style: const TextStyle(fontSize: 13, fontFamily: 'Poppins'))),
       ],
     );
   }
@@ -317,9 +295,8 @@ class AcceptedBudgetScreen extends StatelessWidget {
                   fontSize: 13, color: Colors.black87, fontFamily: 'Poppins'),
               children: [
                 TextSpan(
-                  text: bold,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
+                    text: bold,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(text: normal),
               ],
             ),
@@ -337,15 +314,13 @@ class AcceptedBudgetScreen extends StatelessWidget {
         Icon(icon, size: 16, color: iconColor),
         const SizedBox(width: 8),
         Expanded(
-          child: Text(
-            texto,
-            style: TextStyle(
-              fontSize: 13,
-              fontFamily: 'Poppins',
-              color: textColor,
-              fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
+          child: Text(texto,
+              style: TextStyle(
+                fontSize: 13,
+                fontFamily: 'Poppins',
+                color: textColor,
+                fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+              )),
         ),
       ],
     );
@@ -361,18 +336,14 @@ class AcceptedBudgetScreen extends StatelessWidget {
           foregroundColor: Colors.black,
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
-        child: const Text(
-          'Abrir chat',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            fontFamily: 'Poppins',
-          ),
-        ),
+        child: const Text('Abrir chat',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'Poppins')),
       ),
     );
   }
@@ -387,18 +358,14 @@ class AcceptedBudgetScreen extends StatelessWidget {
           foregroundColor: Colors.black,
           side: const BorderSide(color: Colors.black12),
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
-        child: const Text(
-          'Ver ubicación',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            fontFamily: 'Poppins',
-          ),
-        ),
+        child: const Text('Ver ubicación',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'Poppins')),
       ),
     );
   }
@@ -408,8 +375,7 @@ class AcceptedBudgetScreen extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          BoxShadow(
-              color: Colors.black12, blurRadius: 6, offset: Offset(0, -2)),
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, -2))
         ],
       ),
       child: BottomNavigationBar(

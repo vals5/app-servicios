@@ -249,7 +249,7 @@ class _PaymentReceivedScreenState extends State<PaymentReceivedScreen> {
           Switch(
             value: _pagoParcial,
             onChanged: (val) => setState(() => _pagoParcial = val),
-            activeColor: Colors.green,
+            activeThumbColor: Colors.green,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
         ],
