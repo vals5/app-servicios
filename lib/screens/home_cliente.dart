@@ -76,7 +76,7 @@ class HomeClientScreen extends StatelessWidget {
                   CategoryCard(icon: Icons.flash_on, label: 'Electricista'),
                   CategoryCard(
                       icon: Icons.local_fire_department, label: 'Gasista'),
-                  CategoryCard(icon: Icons.vpn_key, label: 'Cerrajero'),
+                  CategoryCard(icon: Icons.vpn_key, label: 'Generales'),
                   CategoryCard(icon: Icons.ac_unit, label: 'AC'),
                   CategoryCard(icon: Icons.format_paint, label: 'Pintor'),
                 ],

@@ -329,7 +329,7 @@ class _PaymentReceivedScreenState extends State<PaymentReceivedScreen> {
             );
             return;
           }
-          Navigator.pushNamed(context, '/client-stars');
+          Navigator.pushNamed(context, '/rate-client');
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green,

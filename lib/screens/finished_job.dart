@@ -34,7 +34,7 @@ class _FinishedJobScreenState extends State<FinishedJobScreen> {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 8),
 
@@ -109,6 +109,7 @@ class _FinishedJobScreenState extends State<FinishedJobScreen> {
 
   Widget _buildSuccessHeader() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           height: 90,
