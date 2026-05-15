@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/solicitud_provider.dart';
 
 class AcceptedBudgetScreen extends StatefulWidget {
   const AcceptedBudgetScreen({super.key});
@@ -14,8 +16,12 @@ class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
   @override
   void initState() {
     super.initState();
+    // ← acepta el presupuesto en el provider y navega a arrived
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
+        final provider = context.read<SolicitudProvider>();
+        final s = provider.solicitudSeleccionada;
+        if (s != null) provider.aceptarPresupuesto(s);
         Navigator.pushReplacementNamed(context, '/arrived');
       }
     });
@@ -23,6 +29,10 @@ class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = context.watch<SolicitudProvider>().solicitudSeleccionada;
+
+    if (s == null) return const SizedBox.shrink();
+
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: _buildBottomNav(context),
@@ -36,26 +46,21 @@ class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-                  Center(child: _buildSuccessHeader()),
+                  // ← pasa el nombre del cliente al header
+                  Center(child: _buildSuccessHeader(s.clienteNombre)),
                   const SizedBox(height: 20),
-                  _buildCardCliente(),
+                  _buildCardCliente(s),
                   const SizedBox(height: 16),
-                  _buildCardDetalles(),
+                  _buildCardDetalles(s),
                   const SizedBox(height: 12),
                   Center(
-                    child: Text(
-                      'Escribile ahora para coordinar la visita.',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
+                    child: Text('Escribile ahora para coordinar la visita.',
+                        style: TextStyle(fontSize: 13, color: Colors.grey[600], fontFamily: 'Poppins')),
                   ),
                   const SizedBox(height: 16),
                   _buildNotas(),
                   const SizedBox(height: 24),
-                  _buildBotonAbriChat(context),
+                  _buildBotonAbrirChat(context),
                   const SizedBox(height: 12),
                   _buildBotonVerUbicacion(),
                   const SizedBox(height: 20),
@@ -71,38 +76,20 @@ class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
   Widget _buildAppBar(BuildContext context) {
     return Container(
       color: _darkBg,
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 12,
-        left: 16,
-        right: 16,
-        bottom: 16,
-      ),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 12, left: 16, right: 16, bottom: 16),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back, color: Colors.white),
-          ),
-          const Expanded(
-            child: Center(
-              child: Text(
-                'Presupuestar',
-                style: TextStyle(
-                  color: _amarillo,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ),
-          ),
+          GestureDetector(onTap: () => Navigator.pop(context), child: const Icon(Icons.arrow_back, color: Colors.white)),
+          const Expanded(child: Center(child: Text('Presupuestar',
+              style: TextStyle(color: _amarillo, fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins')))),
           const SizedBox(width: 24),
         ],
       ),
     );
   }
 
-  Widget _buildSuccessHeader() {
+  // ← antes: 'María López' hardcodeado, ahora recibe clienteNombre
+  Widget _buildSuccessHeader(String clienteNombre) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -112,148 +99,89 @@ class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
             alignment: Alignment.center,
             children: [
               ...List.generate(12, (i) {
-                final colors = [
-                  Colors.green,
-                  _amarillo,
-                  Colors.blue,
-                  Colors.orange,
-                  Colors.red
-                ];
+                final colors = [Colors.green, _amarillo, Colors.blue, Colors.orange, Colors.red];
                 final positions = [
-                  const Offset(-80, -20),
-                  const Offset(80, -20),
-                  const Offset(-60, 20),
-                  const Offset(60, 20),
-                  const Offset(-90, 10),
-                  const Offset(90, 10),
-                  const Offset(-40, -35),
-                  const Offset(40, -35),
-                  const Offset(-70, 35),
-                  const Offset(70, 35),
-                  const Offset(-20, -40),
-                  const Offset(20, -40),
+                  const Offset(-80, -20), const Offset(80, -20), const Offset(-60, 20), const Offset(60, 20),
+                  const Offset(-90, 10), const Offset(90, 10), const Offset(-40, -35), const Offset(40, -35),
+                  const Offset(-70, 35), const Offset(70, 35), const Offset(-20, -40), const Offset(20, -40),
                 ];
                 return Transform.translate(
                   offset: positions[i],
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: colors[i % colors.length],
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
+                  child: Container(width: 8, height: 8,
+                      decoration: BoxDecoration(color: colors[i % colors.length], borderRadius: BorderRadius.circular(2))),
                 );
               }),
-              Container(
-                width: 64,
-                height: 64,
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.check, color: Colors.white, size: 36),
-              ),
+              Container(width: 64, height: 64,
+                  decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                  child: const Icon(Icons.check, color: Colors.white, size: 36)),
             ],
           ),
         ),
         const SizedBox(height: 12),
-        const Text(
-          'María López',
-          style: TextStyle(
-              fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
-          textAlign: TextAlign.center,
-        ),
-        const Text(
-          'aceptó tu presupuesto',
-          style: TextStyle(
-              fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
-          textAlign: TextAlign.center,
-        ),
+        Text(clienteNombre,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+            textAlign: TextAlign.center),
+        const Text('aceptó tu presupuesto',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+            textAlign: TextAlign.center),
       ],
     );
   }
 
-  Widget _buildCardCliente() {
+  Widget _buildCardCliente(s) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.black12),
-      ),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.black12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.grey[200],
-                child: const Icon(Icons.person, color: Colors.grey),
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('María López',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          fontFamily: 'Poppins')),
-                  SizedBox(height: 2),
-                  Row(children: [
-                    Icon(Icons.star, color: _amarillo, size: 15),
-                    SizedBox(width: 4),
-                    Text('4.8 (7 trabajos)',
-                        style: TextStyle(fontSize: 13, fontFamily: 'Poppins')),
-                  ]),
-                ],
-              ),
-            ],
-          ),
+          Row(children: [
+            CircleAvatar(radius: 22, backgroundColor: Colors.grey[200], child: const Icon(Icons.person, color: Colors.grey)),
+            const SizedBox(width: 12),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(s.clienteNombre, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'Poppins')),
+              const SizedBox(height: 2),
+              Row(children: [
+                const Icon(Icons.star, color: _amarillo, size: 15),
+                const SizedBox(width: 4),
+                Text('${s.clienteRating} (${s.clienteTrabajos} trabajos)',
+                    style: const TextStyle(fontSize: 13, fontFamily: 'Poppins')),
+              ]),
+            ]),
+          ]),
           const SizedBox(height: 12),
           _infoRow(Icons.check_circle, 'Cliente verificado', Colors.green),
           const SizedBox(height: 6),
-          _infoRow(
-              Icons.location_on_outlined, 'Zona: Godoy Cruz', Colors.black54),
+          _infoRow(Icons.location_on_outlined, 'Zona: ${s.clienteZona}', Colors.black54),
           const SizedBox(height: 6),
-          _infoRow(Icons.check_circle, 'Trabajo confirmado', Colors.green,
-              bold: true, textColor: Colors.green),
+          _infoRow(Icons.check_circle, 'Trabajo confirmado', Colors.green, bold: true, textColor: Colors.green),
         ],
       ),
     );
   }
 
-  Widget _buildCardDetalles() {
+  Widget _buildCardDetalles(s) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.black12),
-      ),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.black12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _infoRow(Icons.monetization_on_outlined, 'Precio: \$25.000',
-              Colors.orange),
+          // ← antes: '$25.000' hardcodeado
+          _infoRow(Icons.monetization_on_outlined, 'Precio: \$${s.precio?.toStringAsFixed(0) ?? '--'}', Colors.orange),
           const SizedBox(height: 8),
-          _infoRow(Icons.calendar_today_outlined, 'Día: Martes 23 de abril',
-              Colors.black87),
+          // ← antes: 'Martes 23 de abril' hardcodeado
+          _infoRow(Icons.calendar_today_outlined, 'Día: ${s.diaVisita ?? '--'}', Colors.black87),
           const SizedBox(height: 8),
-          const Row(children: [
-            Icon(Icons.access_time_outlined, size: 16, color: Colors.black54),
-            SizedBox(width: 8),
-            Expanded(
-                child: Text('Horario: 15:00 – 18:00',
-                    style: TextStyle(fontSize: 13, fontFamily: 'Poppins'))),
+          Row(children: [
+            const Icon(Icons.access_time_outlined, size: 16, color: Colors.black54),
+            const SizedBox(width: 8),
+            // ← antes: '15:00 – 18:00' hardcodeado
+            Expanded(child: Text('Horario: ${s.franjaHoraria ?? '--'}',
+                style: const TextStyle(fontSize: 13, fontFamily: 'Poppins'))),
           ]),
           const SizedBox(height: 8),
-          _infoRow(
-              Icons.location_on,
-              'Dirección aproximada: Barrio Los Alerces, Godoy Cruz',
-              Colors.green),
+          _infoRow(Icons.location_on, 'Dirección aproximada: ${s.direccion ?? '--'}', Colors.green),
         ],
       ),
     );
@@ -262,150 +190,82 @@ class _AcceptedBudgetScreenState extends State<AcceptedBudgetScreen> {
   Widget _buildNotas() {
     return Column(
       children: [
-        _notaItem(Icons.credit_card, Colors.blue,
-            'El pago se realiza al finalizar el trabajo.'),
+        _notaItem(Icons.credit_card, Colors.blue, 'El pago se realiza al finalizar el trabajo.'),
         const SizedBox(height: 8),
-        _notaItemRich(Icons.star_border, Colors.orange, 'Responder rápido',
-            ' mejora tu calificación.'),
+        _notaItemRich(Icons.star_border, Colors.orange, 'Responder rápido', ' mejora tu calificación.'),
       ],
     );
   }
 
   Widget _notaItem(IconData icon, Color color, String texto) {
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: color),
-        const SizedBox(width: 10),
-        Expanded(
-            child: Text(texto,
-                style: const TextStyle(fontSize: 13, fontFamily: 'Poppins'))),
-      ],
-    );
+    return Row(children: [
+      Icon(icon, size: 18, color: color), const SizedBox(width: 10),
+      Expanded(child: Text(texto, style: const TextStyle(fontSize: 13, fontFamily: 'Poppins'))),
+    ]);
   }
 
   Widget _notaItemRich(IconData icon, Color color, String bold, String normal) {
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: color),
-        const SizedBox(width: 10),
-        Expanded(
-          child: RichText(
-            text: TextSpan(
-              style: const TextStyle(
-                  fontSize: 13, color: Colors.black87, fontFamily: 'Poppins'),
-              children: [
-                TextSpan(
-                    text: bold,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                TextSpan(text: normal),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+    return Row(children: [
+      Icon(icon, size: 18, color: color), const SizedBox(width: 10),
+      Expanded(child: RichText(text: TextSpan(
+        style: const TextStyle(fontSize: 13, color: Colors.black87, fontFamily: 'Poppins'),
+        children: [
+          TextSpan(text: bold, style: const TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: normal),
+        ],
+      ))),
+    ]);
   }
 
-  Widget _infoRow(IconData icon, String texto, Color iconColor,
-      {bool bold = false, Color textColor = Colors.black87}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 16, color: iconColor),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(texto,
-              style: TextStyle(
-                fontSize: 13,
-                fontFamily: 'Poppins',
-                color: textColor,
-                fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-              )),
-        ),
-      ],
-    );
+  Widget _infoRow(IconData icon, String texto, Color iconColor, {bool bold = false, Color textColor = Colors.black87}) {
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Icon(icon, size: 16, color: iconColor), const SizedBox(width: 8),
+      Expanded(child: Text(texto, style: TextStyle(fontSize: 13, fontFamily: 'Poppins', color: textColor,
+          fontWeight: bold ? FontWeight.bold : FontWeight.normal))),
+    ]);
   }
 
-  Widget _buildBotonAbriChat(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
+  Widget _buildBotonAbrirChat(BuildContext context) {
+    return SizedBox(width: double.infinity,
       child: ElevatedButton(
         onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _amarillo,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        ),
-        child: const Text('Abrir chat',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                fontFamily: 'Poppins')),
+        style: ElevatedButton.styleFrom(backgroundColor: _amarillo, foregroundColor: Colors.black, elevation: 0,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+        child: const Text('Abrir chat', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, fontFamily: 'Poppins')),
       ),
     );
   }
 
   Widget _buildBotonVerUbicacion() {
-    return SizedBox(
-      width: double.infinity,
+    return SizedBox(width: double.infinity,
       child: OutlinedButton(
         onPressed: () {},
-        style: OutlinedButton.styleFrom(
-          backgroundColor: _amarillo,
-          foregroundColor: Colors.black,
-          side: const BorderSide(color: Colors.black12),
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        ),
-        child: const Text('Ver ubicación',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                fontFamily: 'Poppins')),
+        style: OutlinedButton.styleFrom(backgroundColor: _amarillo, foregroundColor: Colors.black,
+            side: const BorderSide(color: Colors.black12), padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+        child: const Text('Ver ubicación', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, fontFamily: 'Poppins')),
       ),
     );
   }
 
   Widget _buildBottomNav(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, -2))
-        ],
-      ),
+      decoration: const BoxDecoration(color: Colors.white,
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, -2))]),
       child: BottomNavigationBar(
         currentIndex: 0,
-        onTap: (i) {
-          if (i == 0) {
-            Navigator.pushReplacementNamed(context, '/home-profesional');
-          }
-        },
-        selectedItemColor: _amarillo,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        selectedLabelStyle: const TextStyle(
-            fontFamily: 'Poppins', fontWeight: FontWeight.w600, fontSize: 11),
-        unselectedLabelStyle:
-            const TextStyle(fontFamily: 'Poppins', fontSize: 11),
+        onTap: (i) { if (i == 0) Navigator.pushReplacementNamed(context, '/home-profesional'); },
+        selectedItemColor: _amarillo, unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed, backgroundColor: Colors.white, elevation: 0,
+        selectedLabelStyle: const TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w600, fontSize: 11),
+        unselectedLabelStyle: const TextStyle(fontFamily: 'Poppins', fontSize: 11),
         items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_rounded), label: 'Inicio'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline_rounded),
-              label: 'Solicitudes'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today_rounded), label: 'Agenda'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart_rounded), label: 'Ganancias'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline_rounded), label: 'Perfil'),
+          BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Inicio'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline_rounded), label: 'Solicitudes'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today_rounded), label: 'Agenda'),
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart_rounded), label: 'Ganancias'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline_rounded), label: 'Perfil'),
         ],
       ),
     );

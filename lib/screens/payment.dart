@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import '../providers/client_provider.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -10,283 +10,158 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  File? receiptImage;
-
-  Future<void> _pickImage(ImageSource source) async {
-    final picker = ImagePicker();
-
-    final file = await picker.pickImage(
-      source: source,
-      imageQuality: 70,
-    );
-
-    if (file != null) {
-      setState(() {
-        receiptImage = File(file.path);
-      });
-    }
-  }
-
-  void _showPicker() {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => SafeArea(
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text("Tomar foto"),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.photo),
-              title: const Text("Elegir de galería"),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.gallery);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  static const Color _amarillo = Color(0xFFF7D400);
+  static const Color _darkBg = Color(0xFF1C1F2A);
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<ClientProvider>();
+    final p = provider.presupuestoActivo;
+
+    if (p == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.pop(context));
+      return const SizedBox.shrink();
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFF6F6F6),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: const BackButton(color: Colors.black),
-        title: const Text(
-          "Pago del servicio",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 8,
-              offset: Offset(0, -2),
-            ),
-          ],
-        ),
-        child: SizedBox(
-          height: 52,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFF7D400),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, '/payment-confirmed');
-            },
-            child: const Text(
-              "Confirmar pago",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+      body: Column(
+        children: [
+          _buildAppBar(context),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(children: [
+                _serviceInfoCard(p),
+                const SizedBox(height: 14),
+                _totalCard(p),
+                const SizedBox(height: 14),
+                _mercadoPagoButton(context, provider, p),
+                const SizedBox(height: 14),
+                _transferCard(),
+              ]),
             ),
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _serviceInfoCard(),
-            const SizedBox(height: 14),
-            _totalCard(),
-            const SizedBox(height: 14),
-            _mercadoPagoButton(context),
-            const SizedBox(height: 14),
-            _transferCard(),
-            const SizedBox(height: 14),
-            _uploadReceipt(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _serviceInfoCard() {
-    return _card(
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Detalle del turno",
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 10),
-          _Row("Profesional", "Leonardo Giménez"),
-          _Row("Servicio", "Electricista"),
-          _Row("Día", "Martes 12 de marzo"),
-          _Row("Hora", "15:30 hs"),
+          _buildBotonConfirmar(context, provider, p),
         ],
       ),
     );
   }
 
-  Widget _totalCard() {
-    return _card(
-      child: const Column(
-        children: [
-          Text("Total a pagar", style: TextStyle(color: Colors.grey)),
-          SizedBox(height: 6),
-          Text(
-            "\$1.800",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+  Widget _buildAppBar(BuildContext context) {
+    return Container(
+      color: _darkBg,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 12,
+        left: 16, right: 16, bottom: 16,
       ),
+      child: Row(children: [
+        GestureDetector(onTap: () => Navigator.pop(context),
+            child: const Icon(Icons.arrow_back, color: Colors.white)),
+        const Expanded(child: Center(child: Text('Pago del servicio',
+            style: TextStyle(color: _amarillo, fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins')))),
+        const SizedBox(width: 24),
+      ]),
     );
   }
 
-  Widget _mercadoPagoButton(BuildContext context) {
+  Widget _serviceInfoCard(p) {
+    return _card(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const Text('Detalle del turno',
+          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins')),
+      const SizedBox(height: 10),
+      _row('Profesional', p.profesionalNombre),
+      _row('Servicio', p.profesionalCategoria),
+      _row('Día', p.diaVisita),
+      _row('Hora', p.franjaHoraria),
+    ]));
+  }
+
+  Widget _totalCard(p) {
+    return _card(child: Column(children: [
+      const Text('Total a pagar',
+          style: TextStyle(color: Colors.grey, fontFamily: 'Poppins')),
+      const SizedBox(height: 6),
+      Text('\$${p.montoSena.toStringAsFixed(0)}',
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'Poppins')),
+    ]));
+  }
+
+  Widget _mercadoPagoButton(BuildContext context, ClientProvider provider, p) {
     return SizedBox(
       width: double.infinity,
-      height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFF7D400),
-          foregroundColor: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-          elevation: 2,
+          backgroundColor: _amarillo, foregroundColor: Colors.black,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/confirmation');
+          provider.pagarSena(p.id);
+          Navigator.pushNamed(context, '/payment-confirmed');
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/MP.png',
-              height: 26,
-            ),
-            const SizedBox(width: 10),
-            const Text(
-              "Pagar con Mercado Pago",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
+        child: const Text('Pagar con Mercado Pago',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, fontFamily: 'Poppins')),
       ),
     );
   }
 
   Widget _transferCard() {
-    return _card(
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Transferencia bancaria",
-            style: TextStyle(fontWeight: FontWeight.bold),
+    return _card(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const Text('Transferencia bancaria',
+          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins')),
+      const SizedBox(height: 8),
+      _row('Banco', 'Banco Nación'),
+      _row('CBU', '0001234560000000001234'),
+      _row('Alias', 'rapi.servicios'),
+      _row('Titular', 'Rapi Servicios SAS'),
+    ]));
+  }
+
+  Widget _buildBotonConfirmar(BuildContext context, ClientProvider provider, p) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, -2))],
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: _amarillo, foregroundColor: Colors.black,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           ),
-          SizedBox(height: 8),
-          _Row("Banco", "Banco Nación"),
-          _Row("CBU", "0001234560000000001234"),
-          _Row("Alias", "rappi.servicios"),
-          _Row("Titular", "Rappi Servicios SAS"),
-        ],
+          onPressed: () {
+            provider.pagarSena(p.id);
+            Navigator.pushNamed(context, '/payment-confirmed');
+          },
+          child: const Text('Confirmar pago',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, fontFamily: 'Poppins')),
+        ),
       ),
     );
   }
 
-  Widget _uploadReceipt() {
-    return _card(
-      child: Column(
-        children: [
-          const Text(
-            "Comprobante de pago",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          GestureDetector(
-            onTap: _showPicker,
-            child: Container(
-              height: 120,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFF3D6),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: receiptImage == null
-                  ? const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.upload, size: 32),
-                        SizedBox(height: 6),
-                        Text("Subir comprobante"),
-                      ],
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(14),
-                      child: Image.file(receiptImage!, fit: BoxFit.cover),
-                    ),
-            ),
-          ),
-        ],
-      ),
+  Widget _row(String left, String right) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(left, style: const TextStyle(fontFamily: 'Poppins')),
+        Text(right, style: const TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Poppins')),
+      ]),
     );
   }
 
   Widget _card({required Widget child}) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
+      width: double.infinity, padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        color: Colors.white, borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 6, offset: const Offset(0, 3))],
       ),
       child: child,
-    );
-  }
-}
-
-class _Row extends StatelessWidget {
-  final String left;
-  final String right;
-
-  const _Row(this.left, this.right);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(left),
-          Text(right, style: const TextStyle(fontWeight: FontWeight.w500)),
-        ],
-      ),
     );
   }
 }

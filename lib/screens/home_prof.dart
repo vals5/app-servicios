@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/solicitud_provider.dart';
 
 class HomeProfesionalScreen extends StatefulWidget {
   const HomeProfesionalScreen({super.key});
@@ -20,6 +22,10 @@ class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ← lee el provider
+    final provider = context.watch<SolicitudProvider>();
+    final prof = provider.profesional;
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
@@ -30,23 +36,10 @@ class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
             CircleAvatar(
               radius: 16,
               backgroundColor: Colors.black,
-              child: Text(
-                "R",
-                style: TextStyle(
-                  color: Color(0xFFF7D400),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: Text("R", style: TextStyle(color: Color(0xFFF7D400), fontWeight: FontWeight.bold)),
             ),
             SizedBox(width: 10),
-            Text(
-              "RAPIARREGLO",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
+            Text("RAPIARREGLO", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
           ],
         ),
         actions: const [
@@ -61,29 +54,20 @@ class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "¡Ya estás operativo!",
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+            // ← antes: '¡Ya estás operativo!' fijo, ahora saluda con el nombre del profesional
+            Text(
+              '¡Hola, ${prof.nombre}!',
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             const SizedBox(height: 6),
-            const Text(
-              "Ya podés ver solicitudes y presupuestar trabajos.",
-              style: TextStyle(fontSize: 15),
-            ),
+            const Text("Ya podés ver solicitudes y presupuestar trabajos.", style: TextStyle(fontSize: 15)),
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.black12,
-                  width: 1,
-                ),
+                border: Border.all(color: Colors.black12, width: 1),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,28 +89,24 @@ class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
                     ],
                   ),
                   const SizedBox(height: 14),
-                  const Text("Perfil 40% completo"),
+                  // ← antes: 'Perfil 40% completo' hardcodeado
+                  Text('Perfil ${prof.porcentajePerfil}% completo'),
                   const SizedBox(height: 6),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: const LinearProgressIndicator(
-                      value: 0.4,
+                    child: LinearProgressIndicator(
+                      // ← antes: value: 0.4 hardcodeado
+                      value: prof.porcentajePerfil / 100,
                       minHeight: 8,
                       backgroundColor: Colors.black12,
-                      valueColor: AlwaysStoppedAnimation(Color(0xFFF7D400)),
+                      valueColor: const AlwaysStoppedAnimation(Color(0xFFF7D400)),
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 30),
-            const Text(
-              "¿Cómo se trabaja?",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const Text("¿Cómo se trabaja?", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             _step(1, "Ves solicitudes de clientes"),
             _step(2, "Presupuestás con monto mínimo y máximo"),
@@ -135,48 +115,29 @@ class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
             _step(5, "Finalizás el trabajo con fotos + importe final"),
             _step(6, "Ambos se califican"),
             _step(7, "Vos cobrás lo que presupuestás, no se te descuenta"),
-            _step(8,
-                "Si vas al domicilio y no está el cliente, la seña la recibís igual"),
+            _step(8, "Si vas al domicilio y no está el cliente, la seña la recibís igual"),
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFE08A),
-                borderRadius: BorderRadius.circular(20),
-              ),
+              decoration: BoxDecoration(color: const Color(0xFFFFE08A), borderRadius: BorderRadius.circular(20)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  Text(
-                    "La seña confirma la visita.",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  Text("La seña confirma la visita.", style: TextStyle(fontWeight: FontWeight.bold)),
                   SizedBox(height: 6),
-                  Text(
-                    "El resto del cobro se acuerda al finalizar el trabajo.\n"
-                    "El cliente paga una pequeña comisión de la plataforma.",
-                  ),
+                  Text("El resto del cobro se acuerda al finalizar el trabajo.\nEl cliente paga una pequeña comisión de la plataforma."),
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              "Cuando un cliente te elige, te avisamos por la app.",
-              style: TextStyle(fontSize: 14),
-            ),
+            const Text("Cuando un cliente te elige, te avisamos por la app.", style: TextStyle(fontSize: 14)),
           ],
         ),
       ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 6,
-              offset: Offset(0, -2),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, -2))],
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -184,26 +145,11 @@ class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
           selectedItemColor: Colors.black,
           unselectedItemColor: Colors.black45,
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "Solicitudes",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.work),
-              label: "Trabajos",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: "Chats",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.history),
-              label: "Historial",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: "Perfil",
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Solicitudes"),
+            BottomNavigationBarItem(icon: Icon(Icons.work), label: "Trabajos"),
+            BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chats"),
+            BottomNavigationBarItem(icon: Icon(Icons.history), label: "Historial"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
           ],
         ),
       ),
@@ -219,22 +165,11 @@ class _HomeProfesionalScreenState extends State<HomeProfesionalScreen> {
           CircleAvatar(
             radius: 12,
             backgroundColor: const Color(0xFFF7D400),
-            child: Text(
-              number.toString(),
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
+            child: Text(number.toString(),
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12)),
           ),
           const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 14))),
         ],
       ),
     );

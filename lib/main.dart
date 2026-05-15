@@ -8,16 +8,6 @@ import 'screens/user_type.dart';
 import 'screens/complete_profile.dart';
 import 'screens/home_cliente.dart';
 import 'screens/home_prof.dart';
-import 'screens/create_request.dart';
-import 'screens/budget.dart';
-import 'screens/confirmation.dart';
-import 'screens/payment.dart';
-import 'screens/payment_confirmed.dart';
-import 'screens/status.dart';
-import 'screens/final_payment.dart';
-import 'screens/fp_confirmed.dart';
-import 'screens/case_review.dart';
-import 'screens/disagree.dart';
 import 'screens/new_request.dart';
 import 'screens/oportunity.dart';
 import 'screens/send_budget.dart';
@@ -26,13 +16,30 @@ import 'screens/arrived.dart';
 import 'screens/finished_job.dart';
 import 'screens/payment_received.dart';
 import 'screens/rate_client.dart';
+import 'screens/confirmation.dart';
+import 'screens/budget.dart';
+import 'screens/payment.dart';
+import 'screens/payment_confirmed.dart';
+import 'screens/status.dart';
+import 'screens/final_payment.dart';
+import 'screens/fp_confirmed.dart';
+import 'screens/disagree.dart';
+import 'screens/case_review.dart';
+import 'screens/create_request.dart';
+import 'screens/chat.dart';
 
 import 'providers/profile_provider.dart';
+import 'providers/solicitud_provider.dart';
+import 'providers/client_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ProfileProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => SolicitudProvider()),
+        ChangeNotifierProvider(create: (_) => ClientProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -51,28 +58,34 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
+        // ─── ONBOARDING ───
         '/': (context) => const SplashScreen(),
         '/welcome': (context) => const WelcomeScreen(),
         '/login': (context) => const LoginScreen(),
         '/user-type': (context) => const UserTypeScreen(),
         '/complete-profile': (context) => const CompleteProfileScreen(),
+
+        // ─── CLIENTE ───
         '/home-cliente': (context) => const HomeClientScreen(),
-        '/home-profesional': (context) => const HomeProfesionalScreen(),
-        '/create-request': (context) => const CreateRequestScreen(),
-        '/budget': (context) => const BudgetScreen(),
         '/confirmation': (context) => const AcceptBudgetScreen(),
+        '/budget': (context) => const BudgetScreen(),
         '/payment': (context) => const PaymentScreen(),
         '/payment-confirmed': (context) => const PaymentConfirmedScreen(),
         '/status': (context) => const StatusScreen(),
         '/final-payment': (context) => const FinalPaymentScreen(),
         '/fp-confirmed': (context) => const FPConfirmedScreen(),
-        '/case-review': (context) => const CaseReviewScreen(),
         '/disagree': (context) => const DisagreeScreen(),
+        '/case-review': (context) => const CaseReviewScreen(),
+        '/create-request': (context) => const CreateRequestScreen(),
+        '/chat': (context) => const ChatScreen(),
+
+        // ─── PROFESIONAL ───
+        '/home-profesional': (context) => const HomeProfesionalScreen(),
         '/new-request': (context) => const NewRequestScreen(),
         '/oportunity': (context) => const OportunityScreen(),
         '/send-budget': (context) => const SendBudgetScreen(),
-        '/arrived': (context) => const ArrivedScreen(),
         '/accepted': (context) => const AcceptedBudgetScreen(),
+        '/arrived': (context) => const ArrivedScreen(),
         '/finished': (context) => const FinishedJobScreen(),
         '/received': (context) => const PaymentReceivedScreen(),
         '/rate-client': (context) => const RateClientScreen(),
